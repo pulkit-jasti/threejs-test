@@ -7,6 +7,7 @@ let renderer;
 let scene;
 let camera;
 let model;
+let animateList;
 let controls;
 
 function init() {
@@ -23,13 +24,14 @@ function init() {
   // scene.background = new THREE.Color(0xdddddd);
 
   // Camera setup
-  let fov = 40;
+  let fov = 30;
   let aspectRatio = window.innerWidth / window.innerHeight;
-  let near = 0.1;
+  let near = 0.7;
   let far = 1000;
 
   camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);
-  camera.position.set(10, 20, 30);
+  // camera.position.set(10, 20, 30);
+  camera.position.set(15, 10, 10);
 
   // Light setup
   let smallLight = new THREE.AmbientLight(0x404040, 1);
@@ -46,10 +48,21 @@ function init() {
 
   // Loading 3D model
   let loader = new THREE.GLTFLoader();
-  loader.load("./3d/scene.gltf", function (gltf) {
+  // loader.load("https://raw.githubusercontent.com/pulkit-jasti/threejs-test/master/3d/scene.gltf", function (gltf) {
+  // loader.load("./3d/meta.glb", function (gltf) {
+  loader.load("./3d/islands.glb", function (gltf) {
     console.log("gltf log", gltf);
     scene.add(gltf.scene);
-    model = gltf.scene.children[0];
+    // model = gltf.scene.children[ 2 ];
+    animateList = [
+      gltf.scene.children[0],
+      gltf.scene.children[2],
+      gltf.scene.children[13],
+      gltf.scene.children[14],
+      gltf.scene.children[15],
+      gltf.scene.children[16],
+      gltf.scene.children[17],
+    ];
     animate();
     // renderer.render(scene, camera);
   });
@@ -58,7 +71,20 @@ function init() {
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
-  // model.rotation.z += 0.005;
+  // model.rotation.y += 0.01;
+
+  animateList[0].rotation.y += 0.03;
+  animateList[1].rotation.y += 0.03;
+  animateList[2].rotation.z += -0.03;
+  animateList[3].rotation.z += -0.03;
+  animateList[4].rotation.z += -0.03;
+  animateList[5].rotation.z += -0.03;
+  animateList[6].rotation.z += -0.03;
+
+  // animateList.forEach((item) => {
+  //   item.rotation.y += 0.03;
+  // });
+
   renderer.render(scene, camera);
 }
 
